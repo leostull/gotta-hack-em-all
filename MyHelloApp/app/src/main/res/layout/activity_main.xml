@@ -10,26 +10,36 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/start_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click on the camera button to open the camera"
+        android:text="Click on the camera button to start scanning!"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/barcode_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text=""
+        android:layout_below="@id/imageview1"
+        android:layout_centerInParent="true"
+        android:textSize="60sp"
         />
 
     <Button
         android:id="@+id/btncamera_id"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text"
-        android:text="Camera"
+        android:layout_below="@+id/start_text"
         android:layout_centerHorizontal="true"
-        />
+        android:text="Camera" />
 
     <ImageView
         android:id="@+id/imageview1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="446dp"
         android:layout_below="@id/btncamera_id"
-        />
+        android:layout_marginTop="-411dp" />
 
 </RelativeLayout>
