@@ -1,5 +1,7 @@
 package com.example.myhelloapp;
 
+import static com.google.android.gms.common.internal.service.Common.API;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,7 +26,11 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+    public static String barcodeValue;
     private static final int REQUESTCODE = 100;
     private static final String TAG = "BarcodeScanner";
     Button btnpicture;
@@ -54,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -77,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         scanner.process(image).addOnSuccessListener(barcodes -> {
             if (!barcodes.isEmpty()) {
                 for (Barcode barcode : barcodes){
-                    String barcodeValue = barcode.getRawValue();
+                    barcodeValue = barcode.getRawValue();
                     textView.setText(barcodeValue);
                     textView.setVisibility(View.VISIBLE);
                     Log.d(TAG, "Barcode value: " + barcodeValue);
