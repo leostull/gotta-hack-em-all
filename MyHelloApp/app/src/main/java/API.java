@@ -32,17 +32,19 @@ public class API {
 
     public static void main(String[] args) {
         String apiKey = "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";
-        String url = "https://www.kaggle.com/datasets/uom190346a/food-ingredients-and-allergens";
+        String url = "https://api.groq.com/openai/v1/chat/completions";
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET"); // check if this needs to be "POST"
-        con.setDoOutput(true);
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Authorization", "Bearer" + apiKey);
+        con.setRequestProperty("Content-Type", "application/json");
+        // con.setDoOutput(true);
 
-        OutputStream out = con.getOutputStream();
-        out.write(("api_key=" + apiKey).getBytes());
-        out.flush();
-        out.close();
+        // OutputStream out = con.getOutputStream();
+        // out.write(("api_key=" + apiKey).getBytes());
+        // out.flush();
+        // out.close();
 
         int responseCode = con.getResponseCode();
         if (responseCode == 200) {
@@ -53,7 +55,7 @@ public class API {
                 content.append(inputLine);
             }
             in.close();
-            content.toString();
+            System.out.println(content.toString());
         }
     }
 }
