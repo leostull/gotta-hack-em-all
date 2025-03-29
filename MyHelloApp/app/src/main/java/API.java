@@ -30,32 +30,36 @@ public class API {
 //        con.setRequestProperty("Authroization", "Bearer" + token);
 //    }
 
-    public static void main(String[] args) {
-        String apiKey = "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";
-        String url = "https://api.groq.com/openai/v1/chat/completions";
+    public static void main(String[] args) throws MalformedURLException {
+        try {
+             String apiKey = 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;
+            String url = https://api.groq.com/openai/v1/chat/completions;
 
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Authorization", "Bearer" + apiKey);
-        con.setRequestProperty("Content-Type", "application/json");
-        // con.setDoOutput(true);
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Authorization", "Bearer" + apiKey);
+            con.setRequestProperty("Content-Type", "application/json");
+            // con.setDoOutput(true);
 
-        // OutputStream out = con.getOutputStream();
-        // out.write(("api_key=" + apiKey).getBytes());
-        // out.flush();
-        // out.close();
+            // OutputStream out = con.getOutputStream();
+            // out.write(("api_key=" + apiKey).getBytes());
+            // out.flush();
+            // out.close();
 
-        int responseCode = con.getResponseCode();
-        if (responseCode == 200) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+            int responseCode = con.getResponseCode();
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder content = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                System.out.println(content.toString());
             }
-            in.close();
-            System.out.println(content.toString());
+        } catch (Exception e) {
+            System.out.println("Error:" + e);
         }
     }
 }
