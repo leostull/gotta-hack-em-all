@@ -1,4 +1,6 @@
 // import packages
+import static com.example.myhelloapp.MainActivity.barcodeValue;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -48,7 +50,7 @@ public class API {
 
 
             // Creating request
-            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeVale + "?\"}]}";
+            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
             OutputStream out = con.getOutputStream();
             out.write(requestBody.getBytes());
             out.flush();
