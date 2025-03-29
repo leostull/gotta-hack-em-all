@@ -45,8 +45,14 @@ public class API {
 
             // OutputStream out = con.getOutputStream();
             // out.write(("api_key=" + apiKey).getBytes());
-            // out.flush();
-            // out.close();
+
+
+            // Creating request
+            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeVale + "?\"}]}";
+            OutputStream out = con.getOutputStream();
+            out.write(requestBody.getBytes());
+            out.flush();
+            out.close();
 
             int responseCode = con.getResponseCode();
             if (responseCode == 200) {
