@@ -1,12 +1,14 @@
 package com.example.myhelloapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,9 +41,12 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUESTCODE) {
             Bundle bundle = data.getExtras();
             if (bundle != null) {
-                imageView.setImageBitmap((android.graphics.Bitmap) bundle.get("data"));
+                Bitmap image = (Bitmap) data.getExtras().get("data");
+                imageView.setImageBitmap(image);
+            } else {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+                super.onActivityResult(requestCode, resultCode, data);
             }
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
