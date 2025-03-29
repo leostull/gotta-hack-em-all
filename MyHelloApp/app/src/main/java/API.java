@@ -33,7 +33,7 @@ public class API {
 
     public static void main(String[] args) throws MalformedURLException {
         try {
-             String apiKey = "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";
+            String apiKey = "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";
             String url = "https://api.groq.com/openai/v1/chat/completions";
 
             URL obj = new URL(url);
