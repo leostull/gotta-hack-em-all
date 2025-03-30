@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private String token;
     
     // Sets displays for product information
-    private void textGeneration(String displayMessage) {
+    public void textGeneration(String displayMessage) {
     	textView.setText(displayMessage);
     	textView.setVisibility(View.VISIBLE);
     }

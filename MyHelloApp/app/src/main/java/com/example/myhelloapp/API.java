@@ -1,6 +1,6 @@
 // import packages
-// package com.example.myhelloapp;
-// import static com.example.myhelloapp.MainActivity.barcodeValue;
+package com.example.myhelloapp;
+import static com.example.myhelloapp.MainActivity.barcodeValue;
 
 // import java.io.BufferedReader;
 // import java.io.InputStreamReader;
@@ -14,12 +14,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import android.os.AsyncTask;
 
 public class API extends AsyncTask<String, Void, String> {
 	private Exception exception;
-	
-	@Override
-	protected String doinBackground(String...strings urls) {
+
+    @Override
+	protected String doInBackground(String...urls) {
 		try {
             // textGeneration("Try reached");
             String apiKey = "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";
@@ -47,7 +48,7 @@ public class API extends AsyncTask<String, Void, String> {
             out.flush();
             out.close();
 
-            textGeneration(requestBody);
+            MainActivity.textGeneration(requestBody);
 
             // System.out.println("After API run.");
 
@@ -63,9 +64,10 @@ public class API extends AsyncTask<String, Void, String> {
                 System.out.println(content.toString());
             }
         } catch (Exception e) {
-            textGeneration("Error:" + e);
+            MainActivity.textGeneration("Error:" + e);
             System.out.println("Error:" + e);
         }
+        return null;
 	}
 //     private String baseUrl;
 //     private String token;
