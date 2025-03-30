@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     // main function originally from API
     public void API() throws MalformedURLException {
         try {
+            textGeneration("Try reached");
             String apiKey = "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";
             String url = "https://api.groq.com/openai/v1/chat/completions";
 
@@ -150,19 +151,21 @@ public class MainActivity extends AppCompatActivity {
 
             // OutputStream out = con.getOutputStream();
             // out.write(("api_key=" + apiKey).getBytes());
-            
+
             System.out.println("Before API run.");
 
 
             // Creating request
             String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
             OutputStream out = con.getOutputStream();
+            textGeneration("Output stream reached");
             out.write(requestBody.getBytes());
+            textGeneration("Write reached");
             out.flush();
             out.close();
-            
+
             textGeneration(requestBody);
-            
+
             System.out.println("After API run.");
 
             int responseCode = con.getResponseCode();
@@ -177,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(content.toString());
             }
         } catch (Exception e) {
+            textGeneration("Error:" + e);
             System.out.println("Error:" + e);
         }
     }

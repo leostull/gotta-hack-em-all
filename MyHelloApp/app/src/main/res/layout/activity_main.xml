@@ -34,7 +34,7 @@
         android:text=""
         android:layout_below="@id/imageview1"
         android:layout_centerInParent="true"
-        android:textSize="60sp"
+        android:textSize="20sp"
         />
 
     <!-- Button that starts camera scanning when clicked -->
