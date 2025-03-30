@@ -50,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
     // Variables for API
     private String baseUrl;
     private String token;
+    
+    // Sets displays for product information
+    private void textGeneration(String displayMessage) {
+    	textView.setText(displayMessage);
+    	textView.setVisibility(View.VISIBLE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +116,7 @@ public class MainActivity extends AppCompatActivity {
             if (!barcodes.isEmpty()) {
                 for (Barcode barcode : barcodes) {
                     barcodeValue = barcode.getRawValue();
-//                    API.main(barcodeValue);
-                    textView.setText(barcodeValue);
-                    textView.setVisibility(View.VISIBLE);
+                    textGeneration(barcodeValue);
                     Log.d(TAG, "Barcode value: " + barcodeValue);
                 }
             } else {
@@ -152,8 +156,7 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
             
-            textView.setText(requestBody);
-            textView.setVisibility(View.VISIBLE);
+            textGeneration(requestBody);
             
             System.out.println("After API run.");
 
