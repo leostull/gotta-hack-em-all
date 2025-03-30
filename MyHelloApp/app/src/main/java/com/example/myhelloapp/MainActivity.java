@@ -117,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
                 for (Barcode barcode : barcodes) {
                     barcodeValue = barcode.getRawValue();
                     textGeneration(barcodeValue);
+                    try {
+                        API();
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
                     Log.d(TAG, "Barcode value: " + barcodeValue);
                 }
             } else {
@@ -131,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     // main function originally from API
-    public static void main(String[] args) throws MalformedURLException {
+    public void API() throws MalformedURLException {
         try {
             String apiKey = "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";
             String url = "https://api.groq.com/openai/v1/chat/completions";
