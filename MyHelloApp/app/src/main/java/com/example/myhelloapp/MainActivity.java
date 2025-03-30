@@ -27,6 +27,10 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -59,8 +63,23 @@ public class MainActivity extends AppCompatActivity {
     
     // Sets displays for product information
     public void textGeneration(String displayMessage) {
-    	textView.setText(displayMessage);
+        try{
+            JSONObject jsonObject = new JSONObject(displayMessage);
+            JSONArray choices = jsonObject.getJSONArray("choices");
+            JSONObject firstChoice = choices.getJSONObject(0);
+            String answer = firstChoice.getString("message");
+            String finalAnswer = answer.substring(8, answer.length() -1);
+            MainActivity.getInstance().textGeneration(finalAnswer);
+            textView.setText(displayMessage);
+        }
+        catch(JSONException e){
+            Log.e("MainActivity", "Error parsing JSON: " + e.getMessage());
+            textView.setText("Error: Could not parse allergy information.");
+        }
     	textView.setVisibility(View.VISIBLE);
+    }
+    private void makeApiCall() {
+        new API().execute();  // Correct way to create and execute the API task
     }
 
     @Override
@@ -138,12 +157,8 @@ public class MainActivity extends AppCompatActivity {
             if (!barcodes.isEmpty()) {
                 for (Barcode barcode : barcodes) {
                     barcodeValue = barcode.getRawValue();
-                    try {
-                        API();
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    }
                     Log.d(TAG, "Barcode value: " + barcodeValue);
+                    makeApiCall();
                 }
             } else {
                 textView.setText("No barcode found");

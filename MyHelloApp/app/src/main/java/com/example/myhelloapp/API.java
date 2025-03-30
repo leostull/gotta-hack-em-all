@@ -14,10 +14,31 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import android.os.AsyncTask;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class API extends AsyncTask<String, Void, String> {
 	private Exception exception;
+
+    @Override
+    protected void onPostExecute(String result){
+        if (result != null && !result.startsWith("Error")){
+            Log.d("API", "Raw API Response: " + result);
+            MainActivity.getInstance().textGeneration(result);
+
+        } else{
+            if (exception != null){
+                Log.e("API", "Error: " + exception.getMessage());
+            } else{
+                Log.e("API", "No result");
+            }
+        }
+    }
 
     @Override
 	protected String doInBackground(String...urls) {
@@ -29,9 +50,9 @@ public class API extends AsyncTask<String, Void, String> {
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("POST");
-            con.setRequestProperty("Authorization", "Bearer" + apiKey);
+            con.setRequestProperty("Authorization", "Bearer " + apiKey);
             con.setRequestProperty("Content-Type", "application/json");
-            // con.setDoOutput(true);
+            con.setDoOutput(true);
 
             // OutputStream out = con.getOutputStream();
             // out.write(("api_key=" + apiKey).getBytes());
@@ -40,11 +61,9 @@ public class API extends AsyncTask<String, Void, String> {
 
 
             // Creating request
-            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on the product with the barcode value " + barcodeValue + "?\"}]}";
+            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the allergy information for barcode " + barcodeValue + "?\"}]}";
             OutputStream out = con.getOutputStream();
-            MainActivity.getInstance().textGeneration("Output stream reached");
             out.write(requestBody.getBytes());
-            MainActivity.getInstance().textGeneration("Write reached");
             out.flush();
             out.close();
 
@@ -62,12 +81,14 @@ public class API extends AsyncTask<String, Void, String> {
                 }
                 in.close();
                 System.out.println(content.toString());
+                return content.toString();
+            } else{
+                return "Error: HTTP " + responseCode;
             }
         } catch (Exception e) {
-            MainActivity.getInstance().textGeneration("Error:" + e);
-            System.out.println("Error:" + e);
+            this.exception = e;
+            return "Error: " + e.getMessage();
         }
-        return null;
 	}
 //     private String baseUrl;
 //     private String token;

@@ -64,6 +64,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="63dp"
         android:text="Scan another barcode"
-        android:visibility="invisible"
-        tools:visibility="visible" />
+        android:visibility="invisible" />
 </RelativeLayout>
