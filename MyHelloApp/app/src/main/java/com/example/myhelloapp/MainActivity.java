@@ -38,6 +38,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static MainActivity instance;
+
+    public static MainActivity getInstance() {
+        return instance;
+    }
     public static String barcodeValue;
     private static final int REQUESTCODE = 100;
     private static final String TAG = "BarcodeScanner";
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         setContentView(R.layout.activity_main);
         btnpicture = findViewById(R.id.btncamera_id);
         btnRetakePicture = findViewById(R.id.btnRetakePicture_id);

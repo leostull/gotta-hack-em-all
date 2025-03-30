@@ -48,7 +48,7 @@ public class API extends AsyncTask<String, Void, String> {
             out.flush();
             out.close();
 
-            MainActivity.textGeneration(requestBody);
+            MainActivity.getInstance().textGeneration(requestBody);
 
             // System.out.println("After API run.");
 
@@ -64,7 +64,7 @@ public class API extends AsyncTask<String, Void, String> {
                 System.out.println(content.toString());
             }
         } catch (Exception e) {
-            MainActivity.textGeneration("Error:" + e);
+            MainActivity.getInstance().textGeneration("Error:" + e);
             System.out.println("Error:" + e);
         }
         return null;
