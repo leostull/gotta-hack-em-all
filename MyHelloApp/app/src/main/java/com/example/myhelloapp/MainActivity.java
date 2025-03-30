@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
             // OutputStream out = con.getOutputStream();
             // out.write(("api_key=" + apiKey).getBytes());
+            
+            System.out.println("Before API run.");
 
 
             // Creating request
@@ -149,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
             out.write(requestBody.getBytes());
             out.flush();
             out.close();
+            
+            textView.setText(requestBody);
+            textView.setVisibility(View.VISIBLE);
+            
+            System.out.println("After API run.");
 
             int responseCode = con.getResponseCode();
             if (responseCode == 200) {
