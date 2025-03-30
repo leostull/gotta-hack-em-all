@@ -1,3 +1,5 @@
+package com.example.myhelloapp;
+
 import java.util.Scanner; //imports scanner class, to read user input
 import java.util.HashSet; //To store elements with no duplicates 
 import java.util.Set; //Does not allow duplicates, each allergen can only be stored once.
@@ -15,7 +17,7 @@ public class TrackAllergy {
         // Continuously ask user for allergies and flagging these
         while (true) {
             System.out.print("Please enter allergy. Type 'exit' to stop: ");
-            String allergy = scanner.nextLine()//.trim();
+            String allergy = scanner.nextLine();//.trim();
 
             //Exiting tracking
             if (allergy.equalsIgnoreCase("exit")) {
