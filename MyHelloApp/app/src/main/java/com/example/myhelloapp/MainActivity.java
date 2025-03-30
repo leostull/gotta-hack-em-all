@@ -65,54 +65,56 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Bitmap imageBitmap;
         if (requestCode == REQUESTCODE && resultCode == RESULT_OK && data != null) {
             Bundle extras = data.getExtras();
             if (extras != null) {
-//                Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                imageView.setImageBitmap(imageBitmap);
-                Uri imageUri = (Uri) extras.get("data");
-                scanBarcode(imageUri);
-            } else {
-                Toast.makeText(this, "No image data", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == REQUESTCODE) {
-            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
-        }
-    }
-    private void scanBarcode(Uri imageUri) {
-        try {
-            InputImage image = InputImage.fromFilePath(this, imageUri);
-
-            BarcodeScannerOptions options = new BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS).build();
-            BarcodeScanner scanner = BarcodeScanning.getClient(options);
-            scanner.process(image).addOnSuccessListener(barcodes -> {
-                if (!barcodes.isEmpty()) {
-                    for (Barcode barcode : barcodes) {
-                        barcodeValue = barcode.getRawValue();
-//                    API.main(barcodeValue);
-                        textView.setText(barcodeValue);
-                        textView.setVisibility(View.VISIBLE);
-                        Log.d(TAG, "Barcode value: " + barcodeValue);
+                imageBitmap = (Bitmap) extras.get("data");
+                if (imageBitmap != null) {
+                    // (Optional) Attempt to get a full-sized image if available
+                    if (data.getData() != null) { // Check if there's a Uri in the Intent
+                        try {
+                            imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                        } catch (IOException e) {
+                            Log.e(TAG, "Error getting full-size image", e);
+                            // Fallback to the thumbnail if there's an error
+                        }
                     }
+                    imageView.setImageBitmap(imageBitmap);
+                    scanBarcode(imageBitmap);
                 } else {
-                    textView.setText("No barcode found");
-                    textView.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, "No image data", Toast.LENGTH_SHORT).show();
                 }
-            }).addOnFailureListener(e -> {
-                textView.setText("Error scanning barcode");
-                textView.setVisibility(View.VISIBLE);
-                Log.e(TAG, "Error scanning barcode", e);
-            });
-        } catch (IOException e) {
-            Log.e(TAG, "Error opening image", e);
-            Toast.makeText(this, "Error opening image", Toast.LENGTH_SHORT).show();
-
+            } else if (requestCode == REQUESTCODE) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
             }
         }
+    private void scanBarcode(Bitmap imageBitmap){
+        InputImage image = InputImage.fromBitmap(imageBitmap, 0);
 
+        BarcodeScannerOptions options = new BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS).build();
+        BarcodeScanner scanner = BarcodeScanning.getClient(options);
+        scanner.process(image).addOnSuccessListener(barcodes -> {
+            if (!barcodes.isEmpty()) {
+                for (Barcode barcode : barcodes) {
+                    barcodeValue = barcode.getRawValue();
+//                    API.main(barcodeValue);
+                    textView.setText(barcodeValue);
+                    textView.setVisibility(View.VISIBLE);
+                    Log.d(TAG, "Barcode value: " + barcodeValue);
+                }
+            } else {
+                textView.setText("No barcode found");
+                textView.setVisibility(View.VISIBLE);
+            }
+        }).addOnFailureListener(e -> {
+            textView.setText("Error scanning barcode");
+            textView.setVisibility(View.VISIBLE);
+            Log.e(TAG, "Error scanning barcode", e);
+        });
     }
-
+    }
+}
