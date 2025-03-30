@@ -63,21 +63,31 @@ public class MainActivity extends AppCompatActivity {
     
     // Sets displays for product information
     public void textGeneration(String displayMessage) {
-        try{
+        try {
             JSONObject jsonObject = new JSONObject(displayMessage);
-            JSONArray choices = jsonObject.getJSONArray("choices");
-            JSONObject firstChoice = choices.getJSONObject(0);
-            JSONObject message = firstChoice.getJSONObject("message");
-            String answer = message.getString("content");
-            // String finalAnswer = answer.substring(8, answer.length() -1);
-            // MainActivity.getInstance().textGeneration(finalAnswer);
-            textView.setText(answer);
-        } catch(JSONException e) {
+
+            // Check for "choices" key to avoid parsing errors
+            if (jsonObject.has("choices")) {
+                JSONArray choices = jsonObject.getJSONArray("choices");
+                if (choices.length() > 0) {
+                    JSONObject firstChoice = choices.getJSONObject(0);
+                    JSONObject message = firstChoice.getJSONObject("message");
+                    String answer = message.getString("content").trim();
+                    textView.setText(answer);
+                    textView.setVisibility(View.VISIBLE);
+                } else {
+                    textView.setText("No choices found in the API response.");
+                }
+            } else {
+                textView.setText("Unexpected API response format.");
+            }
+        } catch (JSONException e) {
             Log.e("MainActivity", "Error parsing JSON: " + e.getMessage());
             textView.setText("Error: Could not parse allergy information.");
+            textView.setVisibility(View.VISIBLE);
         }
-    	textView.setVisibility(View.VISIBLE);
     }
+
     private void makeApiCall() {
         new API().execute();  // Correct way to create and execute the API task
     }
@@ -171,49 +181,49 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     
-    // main function originally from API
-    public void API() throws MalformedURLException {
-        try {
-            String apiKey = "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";
-            String url = "https://api.groq.com/openai/v1/chat/completions";
-
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Authorization", "Bearer" + apiKey);
-            con.setRequestProperty("Content-Type", "application/json");
-            // con.setDoOutput(true);
-
-            // OutputStream out = con.getOutputStream();
-            // out.write(("api_key=" + apiKey).getBytes());
-
-            System.out.println("Before API run.");
-
-
-            // Creating request
-            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
-            OutputStream out = con.getOutputStream();
-            out.write(requestBody.getBytes());
-            out.flush();
-            out.close();
-
-            textGeneration(requestBody);
-
-            System.out.println("After API run.");
-
-            int responseCode = con.getResponseCode();
-            if (responseCode == 200) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuilder content = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                in.close();
-                System.out.println(content.toString());
-            }
-        } catch (Exception e) {
-            System.out.println("Error:" + e);
-        }
-    }
+//    // main function originally from API
+//    public void API() throws MalformedURLException {
+//        try {
+//            String apiKey = "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";
+//            String url = "https://api.groq.com/openai/v1/chat/completions";
+//
+//            URL obj = new URL(url);
+//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//            con.setRequestMethod("POST");
+//            con.setRequestProperty("Authorization", "Bearer" + apiKey);
+//            con.setRequestProperty("Content-Type", "application/json");
+//            // con.setDoOutput(true);
+//
+//            // OutputStream out = con.getOutputStream();
+//            // out.write(("api_key=" + apiKey).getBytes());
+//
+//            System.out.println("Before API run.");
+//
+//
+//            // Creating request
+//            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
+//            OutputStream out = con.getOutputStream();
+//            out.write(requestBody.getBytes());
+//            out.flush();
+//            out.close();
+//
+//            textGeneration(requestBody);
+//
+//            System.out.println("After API run.");
+//
+//            int responseCode = con.getResponseCode();
+//            if (responseCode == 200) {
+//                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//                String inputLine;
+//                StringBuilder content = new StringBuilder();
+//                while ((inputLine = in.readLine()) != null) {
+//                    content.append(inputLine);
+//                }
+//                in.close();
+//                System.out.println(content.toString());
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Error:" + e);
+//        }
+//    }
 }

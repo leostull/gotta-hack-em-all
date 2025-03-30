@@ -17,6 +17,7 @@ import java.net.URL;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,24 +27,26 @@ public class API extends AsyncTask<String, Void, String> {
 	private Exception exception;
 
     @Override
-    protected void onPostExecute(String result){
-        if (result != null && !result.startsWith("Error")){
+    protected void onPostExecute(String result) {
+        if (result != null && !result.startsWith("Error")) {
             Log.d("API", "Raw API Response: " + result);
             MainActivity.getInstance().textGeneration(result);
-
-        } else{
-            if (exception != null){
+        } else {
+            if (exception != null) {
                 Log.e("API", "Error: " + exception.getMessage());
-            } else{
+                MainActivity.getInstance().textView.setText("API Error: " + exception.getMessage());
+            } else {
                 Log.e("API", "No result");
+                MainActivity.getInstance().textView.setText("No response from API.");
             }
+            MainActivity.getInstance().textView.setVisibility(View.VISIBLE);
         }
     }
 
+
     @Override
-	protected String doInBackground(String...urls) {
-		try {
-            // textGeneration("Try reached");
+    protected String doInBackground(String... urls) {
+        try {
             String apiKey = "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";
             String url = "https://api.groq.com/openai/v1/chat/completions";
 
@@ -54,42 +57,34 @@ public class API extends AsyncTask<String, Void, String> {
             con.setRequestProperty("Content-Type", "application/json");
             con.setDoOutput(true);
 
-            // OutputStream out = con.getOutputStream();
-            // out.write(("api_key=" + apiKey).getBytes());
+            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the allergy information on " + MainActivity.barcodeValue + "?\"}]}";
 
-            // System.out.println("Before API run.");
-
-
-            // Creating request
-            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
             OutputStream out = con.getOutputStream();
             out.write(requestBody.getBytes());
             out.flush();
             out.close();
 
-            MainActivity.getInstance().textGeneration(requestBody);
-
-            // System.out.println("After API run.");
-
             int responseCode = con.getResponseCode();
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
                 StringBuilder content = new StringBuilder();
+                String inputLine;
+
                 while ((inputLine = in.readLine()) != null) {
                     content.append(inputLine);
                 }
                 in.close();
-                System.out.println(content.toString());
-                return content.toString();
-            } else{
+
+                return content.toString();  // Return the actual API response
+            } else {
                 return "Error: HTTP " + responseCode;
             }
         } catch (Exception e) {
             this.exception = e;
             return "Error: " + e.getMessage();
         }
-	}
+    }
+
 //     private String baseUrl;
 //     private String token;
 
