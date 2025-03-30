@@ -1,3 +1,5 @@
+//This is what we would have implemented, given we had more time.
+
 package com.example.myhelloapp;
 
 import java.util.Scanner; //imports scanner class, to read user input
