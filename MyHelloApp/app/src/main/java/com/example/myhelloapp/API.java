@@ -57,7 +57,7 @@ public class API extends AsyncTask<String, Void, String> {
             con.setRequestProperty("Content-Type", "application/json");
             con.setDoOutput(true);
 
-            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the allergy information on " + MainActivity.barcodeValue + "?\"}]}";
+            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"Parse through " + MainActivity.barcodeValue + ".\"}]}";
 
             OutputStream out = con.getOutputStream();
             out.write(requestBody.getBytes());
