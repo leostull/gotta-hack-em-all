@@ -1,4 +1,4 @@
-// // import packages
+// import packages
 // package com.example.myhelloapp;
 // import static com.example.myhelloapp.MainActivity.barcodeValue;
 
@@ -9,8 +9,64 @@
 // import java.net.MalformedURLException;
 // import java.net.URL;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-// public class API {
+public class API extends AsyncTask<String, Void, String> {
+	private Exception exception;
+	
+	@Override
+	protected String doinBackground(String...strings urls) {
+		try {
+            // textGeneration("Try reached");
+            String apiKey = "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";
+            String url = "https://api.groq.com/openai/v1/chat/completions";
+
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Authorization", "Bearer" + apiKey);
+            con.setRequestProperty("Content-Type", "application/json");
+            // con.setDoOutput(true);
+
+            // OutputStream out = con.getOutputStream();
+            // out.write(("api_key=" + apiKey).getBytes());
+
+            // System.out.println("Before API run.");
+
+
+            // Creating request
+            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
+            OutputStream out = con.getOutputStream();
+            // textGeneration("Output stream reached");
+            out.write(requestBody.getBytes());
+            // textGeneration("Write reached");
+            out.flush();
+            out.close();
+
+            textGeneration(requestBody);
+
+            // System.out.println("After API run.");
+
+            int responseCode = con.getResponseCode();
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder content = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                System.out.println(content.toString());
+            }
+        } catch (Exception e) {
+            textGeneration("Error:" + e);
+            System.out.println("Error:" + e);
+        }
+	}
 //     private String baseUrl;
 //     private String token;
 
@@ -67,4 +123,4 @@
 //             System.out.println("Error:" + e);
 //         }
 //     }
-// }
+}
