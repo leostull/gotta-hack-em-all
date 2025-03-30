@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     TextView initialTextView;
 
     TextView textView;
+    
+    // Variables for API
+    private String baseUrl;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,5 +120,45 @@ public class MainActivity extends AppCompatActivity {
             textView.setVisibility(View.VISIBLE);
             Log.e(TAG, "Error scanning barcode", e);
         });
+    }
+    
+    // main function originally from API
+    public static void main(String[] args) throws MalformedURLException {
+        try {
+            String apiKey = "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";
+            String url = "https://api.groq.com/openai/v1/chat/completions";
+
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Authorization", "Bearer" + apiKey);
+            con.setRequestProperty("Content-Type", "application/json");
+            // con.setDoOutput(true);
+
+            // OutputStream out = con.getOutputStream();
+            // out.write(("api_key=" + apiKey).getBytes());
+
+
+            // Creating request
+            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
+            OutputStream out = con.getOutputStream();
+            out.write(requestBody.getBytes());
+            out.flush();
+            out.close();
+
+            int responseCode = con.getResponseCode();
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder content = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                System.out.println(content.toString());
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" + e);
+        }
     }
 }
