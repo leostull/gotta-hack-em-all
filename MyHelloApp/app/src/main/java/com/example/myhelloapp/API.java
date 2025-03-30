@@ -61,7 +61,7 @@ public class API extends AsyncTask<String, Void, String> {
 
 
             // Creating request
-            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the allergy information for barcode " + barcodeValue + "?\"}]}";
+            tring requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
             OutputStream out = con.getOutputStream();
             out.write(requestBody.getBytes());
             out.flush();

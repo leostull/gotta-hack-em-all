@@ -67,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(displayMessage);
             JSONArray choices = jsonObject.getJSONArray("choices");
             JSONObject firstChoice = choices.getJSONObject(0);
-            String answer = firstChoice.getString("message");
-            String finalAnswer = answer.substring(8, answer.length() -1);
-            MainActivity.getInstance().textGeneration(finalAnswer);
-            textView.setText(displayMessage);
-        }
-        catch(JSONException e){
+            JSONObject message = firstChoice.getJSONObject("message");
+            String answer = message.getString("content");
+            // String finalAnswer = answer.substring(8, answer.length() -1);
+            // MainActivity.getInstance().textGeneration(finalAnswer);
+            textView.setText(answer);
+        } catch(JSONException e) {
             Log.e("MainActivity", "Error parsing JSON: " + e.getMessage());
             textView.setText("Error: Could not parse allergy information.");
         }
