@@ -1,5 +1,6 @@
 package com.example.myhelloapp;
 
+import com.example.myhelloapp.API;
 import static com.google.android.gms.common.internal.service.Common.API;
 
 import android.Manifest;
@@ -33,13 +34,15 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+
 
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
@@ -60,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
     // Variables for API
     private String baseUrl;
     private String token;
-    
+
+    public static List<String> data = new ArrayList<>();
+
     // Sets displays for product information
     public void textGeneration(String displayMessage) {
         try {
@@ -89,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void makeApiCall() {
-        new API().execute();  // Correct way to create and execute the API task
+        textView.setText("Loading...");
+        new API().execute(String.valueOf(System.currentTimeMillis()));
     }
 
     @Override
@@ -165,11 +171,10 @@ public class MainActivity extends AppCompatActivity {
         BarcodeScanner scanner = BarcodeScanning.getClient(options);
         scanner.process(image).addOnSuccessListener(barcodes -> {
             if (!barcodes.isEmpty()) {
-                for (Barcode barcode : barcodes) {
-                    barcodeValue = barcode.getRawValue();
-                    Log.d(TAG, "Barcode value: " + barcodeValue);
-                    makeApiCall();
-                }
+                Barcode barcode = barcodes.get(0);
+                barcodeValue = barcode.getRawValue();
+                Log.d(TAG, "Barcode value: " + barcodeValue);
+                makeApiCall();
             } else {
                 textView.setText("No barcode found");
                 textView.setVisibility(View.VISIBLE);

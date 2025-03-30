@@ -34,10 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageview1"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="22dp"
         android:layout_centerHorizontal="true"
         android:text=""
-        android:textSize="20sp"
+        android:textSize="50sp"
         android:visibility="invisible" />
 
     <Button
