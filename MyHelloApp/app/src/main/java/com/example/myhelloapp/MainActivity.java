@@ -26,6 +26,8 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
+import com.example.myhelloapp.API;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             if (!barcodes.isEmpty()) {
                 for (Barcode barcode : barcodes){
                     barcodeValue = barcode.getRawValue();
+                    API.main(barcodeValue);
                     textView.setText(barcodeValue);
                     textView.setVisibility(View.VISIBLE);
                     Log.d(TAG, "Barcode value: " + barcodeValue);
