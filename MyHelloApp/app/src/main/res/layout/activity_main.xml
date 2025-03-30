@@ -26,18 +26,19 @@
          .build(); //create CameraFocus -->
 
     <!-- To display barcode value (initially hidden) -->
+
+    <!-- Button that starts camera scanning when clicked -->
     <TextView
         android:id="@+id/barcode_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:text=""
         android:layout_below="@id/imageview1"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-49dp"
+        android:text=""
         android:textSize="20sp"
-        />
+        android:visibility="invisible" />
 
-    <!-- Button that starts camera scanning when clicked -->
     <Button
         android:id="@+id/btncamera_id"
         android:layout_width="wrap_content"
@@ -59,9 +60,10 @@
         android:id="@+id/btnRetakePicture_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Retake Picture. "
         android:layout_below="@id/imageview1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        />
+        android:layout_marginTop="63dp"
+        android:text="Scan another barcode"
+        android:visibility="invisible"
+        tools:visibility="visible" />
 </RelativeLayout>
