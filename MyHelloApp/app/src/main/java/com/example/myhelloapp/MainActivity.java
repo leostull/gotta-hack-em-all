@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
             }
         }
+    }
     private void scanBarcode(Bitmap imageBitmap){
         InputImage image = InputImage.fromBitmap(imageBitmap, 0);
 
@@ -115,6 +116,5 @@ public class MainActivity extends AppCompatActivity {
             textView.setVisibility(View.VISIBLE);
             Log.e(TAG, "Error scanning barcode", e);
         });
-    }
     }
 }
