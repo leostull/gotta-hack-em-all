@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUESTCODE = 100;
     private static final String TAG = "BarcodeScanner";
     Button btnpicture;
+    Button btnRetakePicture;
     ImageView imageView;
     TextView initialTextView;
 
@@ -62,22 +63,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnpicture = findViewById(R.id.btncamera_id);
+        btnRetakePicture = findViewById(R.id.btnRetakePicture_id);
         imageView = findViewById(R.id.imageview1);
         initialTextView = findViewById(R.id.start_text);
         textView = findViewById(R.id.barcode_text);
 
         btnpicture.setOnClickListener(new View.OnClickListener() {
             @Override
+            public void onClick(View v){
+                openCamera();
+            }
+        });
+        btnRetakePicture.setOnClickListener(new View.OnClickListener(){
+            @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, REQUESTCODE);
+                openCamera();
+                imageView.setImageBitmap(null);
+                btnRetakePicture.setVisibility(View.INVISIBLE);
+                textView.setVisibility(View.INVISIBLE);
+                textView.setText("");
+
             }
         });
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1); // 1 is a request code
         }
     }
-
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, REQUESTCODE);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -98,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     imageView.setImageBitmap(imageBitmap);
+                    btnRetakePicture.setVisibility(View.VISIBLE);
                     scanBarcode(imageBitmap);
                 } else {
                     Toast.makeText(this, "No image data", Toast.LENGTH_SHORT).show();
@@ -138,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
     // main function originally from API
     public void API() throws MalformedURLException {
         try {
-            textGeneration("Try reached");
             String apiKey = "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";
             String url = "https://api.groq.com/openai/v1/chat/completions";
 
@@ -158,9 +173,7 @@ public class MainActivity extends AppCompatActivity {
             // Creating request
             String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
             OutputStream out = con.getOutputStream();
-            textGeneration("Output stream reached");
             out.write(requestBody.getBytes());
-            textGeneration("Write reached");
             out.flush();
             out.close();
 
@@ -180,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(content.toString());
             }
         } catch (Exception e) {
-            textGeneration("Error:" + e);
             System.out.println("Error:" + e);
         }
     }
