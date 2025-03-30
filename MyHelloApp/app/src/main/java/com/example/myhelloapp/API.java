@@ -40,11 +40,11 @@ public class API extends AsyncTask<String, Void, String> {
 
 
             // Creating request
-            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on " + barcodeValue + "?\"}]}";
+            String requestBody = "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\"user\",\"content\":\"What is the allergy information on the product with the barcode value " + barcodeValue + "?\"}]}";
             OutputStream out = con.getOutputStream();
-            // textGeneration("Output stream reached");
+            MainActivity.getInstance().textGeneration("Output stream reached");
             out.write(requestBody.getBytes());
-            // textGeneration("Write reached");
+            MainActivity.getInstance().textGeneration("Write reached");
             out.flush();
             out.close();
 

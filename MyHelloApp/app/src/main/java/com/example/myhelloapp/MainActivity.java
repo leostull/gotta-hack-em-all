@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
             if (!barcodes.isEmpty()) {
                 for (Barcode barcode : barcodes) {
                     barcodeValue = barcode.getRawValue();
-                    textGeneration(barcodeValue);
                     try {
                         API();
                     } catch (MalformedURLException e) {
