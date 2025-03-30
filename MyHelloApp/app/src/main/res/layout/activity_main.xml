@@ -8,7 +8,7 @@
     android:layout_height="match_parent"                         // The layout height fills the parent container
     android:layout_margin="10dp"                                 // Sets margin of 10 dp around entire layout
     tools:context=".MainActivity">                               // Specifies the context (activity) this layout is used in.
-    \\testing
+
 
     //To show initial message to the user
     <TextView
