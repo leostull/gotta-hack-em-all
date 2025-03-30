@@ -1,73 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>  //XML version & encoding, application programming interface which is shareable
-<RelativeLayout  //Parent of the UI elements.
-    xmlns:android="http://schemas.android.com/apk/res/android"  // The XML namespace declaration for Android attributes.
-    xmlns:app="http://schemas.android.com/apk/res-auto"          
-    xmlns:tools="http://schemas.android.com/tools"              
-    android:id="@+id/main"                                     
-    android:layout_width="match_parent"                        
-    android:layout_height="match_parent"                         // The layout height fills the parent container
-    android:layout_margin="10dp"                                 // Sets margin of 10 dp around entire layout
-    tools:context=".MainActivity">                               // Specifies the context (activity) this layout is used in.
+<?xml version="1.0" encoding="utf-8"?>
+<!-- XML version & encoding, application programming interface which is shareable -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".MainActivity">
 
-
-    //To show initial message to the user
+    <!-- To show initial message to the user -->
     <TextView
+        android:id="@+id/start_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click on the camera button to start scanning!"
+        android:layout_centerInParent="true"
+        />
 
-        android:id="@+id/start_text"                            
-        android:layout_width="wrap_content"                      // TextView width adjusts to content size
-        android:layout_height="wrap_content"                     // TextView height adjusts
-        android:text="Click on the camera button to start scanning!"  
-        android:layout_centerInParent="true"                      // Centers TextView in parent container
-    />
+    <!-- Autofocus -->
+    <!-- CameraFocus cameraFocus = new CameraFocus.Builder(context, detector)
+         .setRequestedPreviewSize(1280, 1024) //set resolution
+         .setAutoFocusEnabled(true) //enable autofocus
+         .build(); //create CameraFocus -->
 
-    //Autofocus
-   // CameraFocus cameraFocus = new CameraFocus.Builder(context, detector)
-     //   .setRequestedPreviewSize(1280, 1024) //set resolution 
-       // .setAutoFocusEnabled(true) //enable autofocus 
-        //.build(); //create CameraFocus
-
-
-    //To display barcode value (initially hidden)
+    <!-- To display barcode value (initially hidden) -->
     <TextView
-        android:id="@+id/barcode_text"                           
-        android:layout_width="wrap_content"                      
-        android:layout_height="wrap_content"                     
-        android:visibility="invisible"                            // Initializes the visibility to invisible (shown when a barcode is detected)
-        android:text=""                                          
-        android:layout_below="@id/imageview1"                     // Position
-        android:layout_centerInParent="true"                      
-        android:textSize="60sp"                                  
-    />
+        android:id="@+id/barcode_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text=""
+        android:layout_below="@id/imageview1"
+        android:layout_centerInParent="true"
+        android:textSize="60sp"
+        />
 
-    //Button that starts camera scanning when clicked
+    <!-- Button that starts camera scanning when clicked -->
     <Button
-        android:id="@+id/btncamera_id"                           
-        android:layout_width="wrap_content"                      
-        android:layout_height="wrap_content"                  
-        android:layout_below="@+id/start_text"                   
-        android:layout_centerHorizontal="true"                   
-        android:text="Camera"                                   
-    />
+        android:id="@+id/btncamera_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/start_text"
+        android:layout_centerHorizontal="true"
+        android:text="Camera"
+        />
 
-    //To show camera preview or related image
+    <!-- To show camera preview or related image -->
     <ImageView
-        android:id="@+id/imageview1"                              
-        android:layout_width="match_parent"                       
-        android:layout_height="446dp"                             
-        android:layout_below="@id/btncamera_id"                   // Positions this below the Camera
-        android:layout_marginTop="-411dp"                         // Moves the ImageView up by 411dp from the top
-    />
-    
-
-
+        android:id="@+id/imageview1"
+        android:layout_width="match_parent"
+        android:layout_height="446dp"
+        android:layout_below="@id/btncamera_id"
+        android:layout_marginTop="-411dp"
+        />
 
     <Button
         android:id="@+id/btnRetakePicture_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Retake Picture. "
-        android:layout_below="@id/imageview1"          //Position the Redo button below ImageView
-        android:layout_centerHorizontal="true"         //Center button horizontally
-        android:layout_marginTop="20dp"                //Add additional space above button.
-    />
-</RelativeLayout> 
+        android:layout_below="@id/imageview1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
+</RelativeLayout>
